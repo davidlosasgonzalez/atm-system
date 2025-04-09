@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AccountModule } from './modules/account/account.module';
 
 @Module({
     imports: [
@@ -20,6 +21,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             synchronize: true,
             dropSchema: true,
         }),
+
+        AccountModule,
     ],
     controllers: [],
     providers: [],
