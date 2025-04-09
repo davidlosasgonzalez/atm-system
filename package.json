@@ -27,6 +27,7 @@
         "@nestjs/platform-express": "^11.0.1",
         "@nestjs/typeorm": "^11.0.0",
         "class-validator": "^0.14.1",
+        "creditcard-generator": "^0.0.7",
         "ibankit": "^1.6.5",
         "morgan": "^1.10.0",
         "mysql2": "^3.14.0",
