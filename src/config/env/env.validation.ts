@@ -1,7 +1,14 @@
 import { z } from 'zod';
 
 export const envSchema = z.object({
-    DB_TYPE: z.literal('mysql'),
+    DB_TYPE: z.enum([
+        'mysql',
+        'postgres',
+        'sqlite',
+        'mariadb',
+        'oracle',
+        'mssql',
+    ]),
     DB_HOST: z.string().min(1, 'DB_HOST no puede estar vacío'),
     DB_PORT: z
         .string()

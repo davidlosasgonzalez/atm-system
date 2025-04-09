@@ -1,17 +1,29 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('accounts')
 export class Account {
-    @PrimaryColumn('uuid')
-    id: string;
+    @ApiProperty({ format: 'uuid' })
+    @PrimaryGeneratedColumn('uuid')
+    readonly id: string;
 
+    @ApiProperty({ example: 'ES9820385778983000760236' })
     @Column({ unique: true })
     iban: string;
 
-    // TypeORM recomienda usar 'string' para columnas decimales, ya que JavaScript no maneja bien la precisión de valores tipo 'number'.
+    @ApiProperty({
+        example: '1000.00',
+        description: 'Saldo actual de la cuenta',
+    })
     @Column({ type: 'decimal', precision: 12, scale: 2, default: 0 })
     balance: string;
 
+    @ApiProperty({ format: 'date-time' })
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
 }
