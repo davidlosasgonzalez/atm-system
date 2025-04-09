@@ -1,7 +1,8 @@
-import { Controller, Put, Param, Body } from '@nestjs/common';
+import { Controller, Put, Param, Body, Patch } from '@nestjs/common';
 import { CardService } from './card.service';
 import { CardIdParamDto } from './dto/card-id-param.dto';
 import { ActivateCardDto } from './dto/activate-card.dto';
+import { ChangeCardPinDto } from './dto/change-card-pin.dto';
 
 @Controller('cards/:cardId')
 export class CardController {
@@ -17,6 +18,19 @@ export class CardController {
         return {
             status: 'ok',
             message: 'Tarjeta activada.',
+        };
+    }
+
+    @Patch('pin')
+    async changeCardPin(
+        @Param() { cardId }: CardIdParamDto,
+        @Body() changeCardPinDto: ChangeCardPinDto,
+    ) {
+        await this.cardService.changeCardPin(changeCardPinDto, cardId);
+
+        return {
+            status: 'ok',
+            message: 'Pin actualizado',
         };
     }
 }

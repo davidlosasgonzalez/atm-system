@@ -13,6 +13,7 @@ import { GenCC } from 'creditcard-generator';
 import { GenCCFn } from './types/gencc.type';
 import { ActivateCardDto } from './dto/activate-card.dto';
 import { HashingService } from './services/hashing-service';
+import { ChangeCardPinDto } from './dto/change-card-pin.dto';
 
 @Injectable()
 export class CardService {
@@ -58,6 +59,49 @@ export class CardService {
 
         card.pin = await this.hashingService.hash(activateCardDto.pin);
         card.isActive = true;
+
+        await this.cardRepo.save(card);
+    }
+
+    public async changeCardPin(
+        changeCardPinDto: ChangeCardPinDto,
+        cardId: string,
+    ): Promise<void> {
+        const card = await this.getCardOrThrow(cardId);
+
+        if (!card.isActive) {
+            throw new BadRequestException(
+                'La tarjeta debe estar activa para poder cambiar el PIN.',
+            );
+        }
+
+        if (!card.pin) {
+            throw new BadRequestException(
+                'La tarjeta aún no tiene PIN configurado.',
+            );
+        }
+
+        const isSame = await this.hashingService.compare(
+            changeCardPinDto.newPin,
+            card.pin,
+        );
+
+        if (isSame) {
+            throw new BadRequestException(
+                'El nuevo PIN no puede ser igual al PIN actual.',
+            );
+        }
+
+        const isMatch = await this.hashingService.compare(
+            changeCardPinDto.currentPin,
+            card.pin,
+        );
+
+        if (!isMatch) {
+            throw new BadRequestException('El PIN actual es incorrecto.');
+        }
+
+        card.pin = await this.hashingService.hash(changeCardPinDto.newPin);
 
         await this.cardRepo.save(card);
     }
