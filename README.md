@@ -16,7 +16,7 @@ Una **API REST** desarrollada con **Nest.js** para simular las operaciones dispo
 1. **Clonar el repositorio**:
 
     ```bash
-    git clone https://github.com/yourusername/atm-system.git
+    git clone git@github.com:davidlosasgonzalez/atm-system.git
     cd atm-system
     ```
 
