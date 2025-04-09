@@ -9,8 +9,8 @@ async function bootstrap(): Promise<void> {
     const app = await NestFactory.create(AppModule);
 
     app.setGlobalPrefix('api');
-    app.useGlobalPipes(customValidationPipe);
     app.useGlobalFilters(new GlobalExceptionsFilter());
+    app.useGlobalPipes(customValidationPipe);
     app.use(morgan('dev'));
 
     await app.listen(env.PORT);
