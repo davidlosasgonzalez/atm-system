@@ -5,8 +5,8 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 const fakeAccount = {
-    id: '9586d894-9e6d-4fe7-959d-3889c8b171b1',
-    iban: 'ES7620770024003102575766',
+    id: 'account-id',
+    iban: 'ES00',
     balance: '0',
     createdAt: new Date(),
 } satisfies Account;
