@@ -1,32 +1,18 @@
-import {
-    Matches,
-    Validate,
-    ValidatorConstraint,
-    ValidatorConstraintInterface,
-    ValidationArguments,
-} from 'class-validator';
-
-@ValidatorConstraint({ name: 'PinsMatch', async: false })
-class PinsMatchConstraint implements ValidatorConstraintInterface {
-    validate(repeatedPin: string, args: ValidationArguments) {
-        const { pin } = args.object as { pin: string; repeatedPin: string };
-        return repeatedPin === pin;
-    }
-
-    defaultMessage(): string {
-        return 'Los PIN introducidos no coinciden.';
-    }
-}
+import { Matches, Validate } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { PinsMatchConstraint } from '../validators/pins-match.validator';
 
 export class ActivateCardDto {
+    @ApiProperty({ example: '1234', description: 'PIN numérico de 4 dígitos' })
     @Matches(/^\d{4}$/, {
         message: 'El PIN debe contener exactamente 4 dígitos numéricos.',
     })
-    pin!: string;
+    readonly pin: string;
 
+    @ApiProperty({ example: '1234', description: 'Repetir PIN' })
     @Matches(/^\d{4}$/, {
         message: 'El PIN debe contener exactamente 4 dígitos numéricos.',
     })
     @Validate(PinsMatchConstraint)
-    repeatedPin!: string;
+    readonly repeatedPin: string;
 }

@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Card } from './entities/card.entity';
 import { Repository } from 'typeorm';
 import { Account } from '../account/entities/account.entity';
-import { v4 as uuid } from 'uuid';
 import { GenCC } from 'creditcard-generator';
 import { GenCCFn } from './types/gencc.type';
 import { ActivateCardDto } from './dto/activate-card.dto';
@@ -31,10 +30,9 @@ export class CardService {
     ): Promise<Card> {
         await this.ensureAccountExists(accountId);
 
-        const [number] = (GenCC as GenCCFn)('VISA', 1);
+        const [number]: string[] = (GenCC as GenCCFn)('VISA', 1);
 
-        const card = this.cardRepo.create({
-            id: uuid(),
+        const card: Card = this.cardRepo.create({
             accountId,
             number,
             pin: null,
@@ -51,7 +49,7 @@ export class CardService {
         activateCardDto: ActivateCardDto,
         cardId: string,
     ): Promise<void> {
-        const card = await this.getCardOrThrow(cardId);
+        const card: Card = await this.getCardOrThrow(cardId);
 
         if (card.isActive) {
             throw new BadRequestException('La tarjeta ya está activada');
@@ -67,7 +65,7 @@ export class CardService {
         changeCardPinDto: ChangeCardPinDto,
         cardId: string,
     ): Promise<void> {
-        const card = await this.getCardOrThrow(cardId);
+        const card: Card = await this.getCardOrThrow(cardId);
 
         if (!card.isActive) {
             throw new BadRequestException(
@@ -81,7 +79,7 @@ export class CardService {
             );
         }
 
-        const isSame = await this.hashingService.compare(
+        const isSame: boolean = await this.hashingService.compare(
             changeCardPinDto.newPin,
             card.pin,
         );
@@ -92,7 +90,7 @@ export class CardService {
             );
         }
 
-        const isMatch = await this.hashingService.compare(
+        const isMatch: boolean = await this.hashingService.compare(
             changeCardPinDto.currentPin,
             card.pin,
         );
@@ -107,7 +105,7 @@ export class CardService {
     }
 
     private async ensureAccountExists(accountId: string): Promise<void> {
-        const exists = await this.accountRepo
+        const exists: boolean = await this.accountRepo
             .createQueryBuilder()
             .select('1')
             .where('id = :accountId', { accountId })
@@ -119,7 +117,7 @@ export class CardService {
     }
 
     private async getCardOrThrow(cardId: string): Promise<Card> {
-        const card = await this.cardRepo.findOneBy({ id: cardId });
+        const card: Card | null = await this.cardRepo.findOneBy({ id: cardId });
 
         if (!card) {
             throw new NotFoundException('Tarjeta no encontrada');
