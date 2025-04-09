@@ -39,6 +39,7 @@ Una **API REST** desarrollada con **Nest.js** para simular las operaciones dispo
     Para producción:
 
     ```bash
+    npm run build
     npm run start:prod
     ```
 
