@@ -6,6 +6,13 @@ import { Account } from '@/modules/account/entities/account.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateCardDto } from '@/modules/card/dto/create-card.dto';
 import { NotFoundException } from '@nestjs/common';
+import { ActivateCardDto } from '@/modules/card/dto/activate-card.dto';
+import { HashingService } from '@/modules/card/services/hashing-service';
+
+const activateCardDto: ActivateCardDto = {
+    pin: '1234',
+    repeatedPin: '1234',
+};
 
 describe('CardService', () => {
     let service: CardService;
@@ -32,6 +39,13 @@ describe('CardService', () => {
                             where: jest.fn().mockReturnThis(),
                             getExists: jest.fn().mockResolvedValue(true),
                         }),
+                    },
+                },
+                {
+                    provide: HashingService,
+                    useValue: {
+                        hash: jest.fn().mockResolvedValue('hashed1234'),
+                        compare: jest.fn(),
                     },
                 },
             ],
@@ -98,5 +112,53 @@ describe('CardService', () => {
                 '6f5925fc-7793-47bb-8690-a2b8e85a9fdc',
             ),
         ).rejects.toThrow(NotFoundException);
+    });
+
+    it('debería activar una tarjeta correctamente si está inactiva y sin PIN', async () => {
+        const cardId = '22f7c4e1-602f-4b88-9845-a47567029aae';
+
+        const inactiveCard: Card = {
+            id: cardId,
+            accountId: '17827f21-6d3a-4d54-9a28-06810eae84b6',
+            account: {} as Account,
+            number: '41111111111111111111',
+            pin: null,
+            isActive: false,
+            cardType: 'debit',
+            withdrawalLimit: 1000,
+            creditLimit: 0,
+            createdAt: new Date(),
+        };
+
+        cardRepo.findOneBy.mockResolvedValue(inactiveCard);
+        cardRepo.save.mockResolvedValue({
+            ...inactiveCard,
+            isActive: true,
+            pin: 'hashed1234',
+        });
+
+        await service.activate(activateCardDto, cardId);
+
+        expect(cardRepo.findOneBy).toHaveBeenCalledWith({ id: cardId });
+        expect(cardRepo.save).toHaveBeenCalledWith(
+            expect.objectContaining({
+                isActive: true,
+                pin: 'hashed1234',
+            }),
+        );
+    });
+
+    it('debería lanzar error si la tarjeta ya está activa', async () => {
+        const cardId = 'a0d1e7b8-e3e8-48e3-a2eb-6c0cd02e87c6';
+
+        cardRepo.findOneBy.mockResolvedValue({
+            id: cardId,
+            pin: '1234',
+            isActive: true,
+        } as Card);
+
+        await expect(service.activate(activateCardDto, cardId)).rejects.toThrow(
+            'La tarjeta ya está activa',
+        );
     });
 });
