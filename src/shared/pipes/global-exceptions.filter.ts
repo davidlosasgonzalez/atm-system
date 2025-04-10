@@ -13,6 +13,8 @@ import { isHttpExceptionResponseWithMessage } from '@/shared/utils/is-http-excep
 @Catch()
 export class GlobalExceptionsFilter implements ExceptionFilter {
     catch(exception: unknown, host: ArgumentsHost): void {
+        console.log('[GLOBAL EXCEPTION CAUGHT]:', exception);
+
         const ctx = host.switchToHttp();
         const response: Response = ctx.getResponse();
 

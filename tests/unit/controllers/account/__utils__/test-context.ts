@@ -12,6 +12,19 @@ export function setupAccountControllerTestContext() {
         iban: 'ES00',
         balance: '0',
         createdAt: new Date(),
+        userId: 'user-id',
+        user: {
+            id: 'user-id',
+            firstName: 'Laura',
+            lastName: 'Fernández',
+            dni: '12345678Z',
+            phone: '+34123456789',
+            email: 'user@example.com',
+            password: 'hashed-password',
+            role: 'customer',
+            createdAt: new Date(),
+            accounts: [],
+        },
     };
 
     beforeEach(async () => {

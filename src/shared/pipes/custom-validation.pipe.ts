@@ -13,6 +13,11 @@ export const customValidationPipe = new ValidationPipe({
     transform: true,
     exceptionFactory: (errors: ValidationError[]): BadRequestException => {
         const errorList: FormattedValidationError[] = errors.map((err) => {
+            console.log(
+                '[VALIDATION ERROR RAW]:',
+                JSON.stringify(errors, null, 2),
+            );
+
             const { property: field, constraints } = err;
 
             let message = 'Error de validación.';
