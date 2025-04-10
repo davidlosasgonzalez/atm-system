@@ -4,8 +4,8 @@ import {
     ValidationError,
 } from '@nestjs/common';
 
-import { FormattedValidationError } from '../types/formatted-validation-error.type';
 import { DataResponse } from '../types/base-response.type';
+import { FormattedValidationError } from '../types/formatted-validation-error.type';
 
 export const customValidationPipe = new ValidationPipe({
     whitelist: true,

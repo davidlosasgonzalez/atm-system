@@ -1,9 +1,9 @@
 import { Controller, Put, Param, Body, Patch } from '@nestjs/common';
-import { CardService } from './card.service';
-import { CardIdParamDto } from './dto/card-id-param.dto';
-import { ActivateCardDto } from './dto/activate-card.dto';
-import { ChangeCardPinDto } from './dto/change-card-pin.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { CardService } from './card.service';
+import { ActivateCardDto } from './dto/activate-card.dto';
+import { CardIdParamDto } from './dto/card-id-param.dto';
+import { ChangeCardPinDto } from './dto/change-card-pin.dto';
 import { BaseResponse } from '@/shared/types/base-response.type';
 
 @ApiTags('Cards')

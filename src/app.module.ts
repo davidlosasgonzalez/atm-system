@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmConfig } from './config/typeorm/typeorm.config';
 import { AccountModule } from './modules/account/account.module';
 import { CardModule } from './modules/card/card.module';
-import { typeOrmConfig } from './config/typeorm/typeorm.config';
 
 @Module({
     imports: [

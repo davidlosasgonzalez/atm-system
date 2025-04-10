@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { BaseResponse } from '@/shared/types/base-response.type';
-import { isHttpExceptionResponseWithMessage } from '@/shared/utils/is-http-exception-response-with-message';
 import { isHttpExceptionResponseWithData } from '@/shared/utils/is-http-exception-response-with-data';
+import { isHttpExceptionResponseWithMessage } from '@/shared/utils/is-http-exception-response-with-message';
 
 @Catch()
 export class GlobalExceptionsFilter implements ExceptionFilter {

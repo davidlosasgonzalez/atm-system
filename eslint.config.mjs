@@ -1,41 +1,54 @@
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import tsParser from '@typescript-eslint/parser';
+import eslintPluginImport from 'eslint-plugin-import';
 import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import eslintPluginTypescript from '@typescript-eslint/eslint-plugin';
 
-export default tseslint.config(
-    {
-        ignores: ['eslint.config.mjs'],
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+
+const baseConfig = {
+    files: ['**/*.ts'],
+    languageOptions: {
+        parser: tsParser,
+        globals: {
+            ...globals.node,
+            ...globals.jest,
+        },
+        ecmaVersion: 2015,
+        sourceType: 'module',
+        parserOptions: {
+            project: [path.join(__dirname, 'tsconfig.json')],
+            tsconfigRootDir: __dirname,
+        },
     },
-    eslint.configs.recommended,
-    ...tseslint.configs.recommendedTypeChecked,
-    eslintPluginPrettierRecommended,
-    {
-        languageOptions: {
-            globals: {
-                ...globals.node,
-                ...globals.jest,
+    plugins: {
+        import: eslintPluginImport,
+        '@typescript-eslint': eslintPluginTypescript,
+    },
+    rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-floating-promises': 'warn',
+        '@typescript-eslint/no-unsafe-argument': 'warn',
+        'import/order': [
+            'error',
+            {
+                groups: [
+                    ['builtin', 'external'],
+                    ['internal', 'sibling', 'parent'],
+                    'index',
+                ],
+                alphabetize: { order: 'asc', caseInsensitive: true },
             },
-            ecmaVersion: 5,
-            sourceType: 'module',
-            parserOptions: {
-                projectService: true,
-                tsconfigRootDir: import.meta.dirname,
-            },
-        },
+        ],
     },
-    {
-        rules: {
-            '@typescript-eslint/no-explicit-any': 'off',
-            '@typescript-eslint/no-floating-promises': 'warn',
-            '@typescript-eslint/no-unsafe-argument': 'warn',
-        },
+};
+
+const testOverrides = {
+    files: ['tests/**/*.unit-spec.ts'],
+    rules: {
+        '@typescript-eslint/unbound-method': 'off',
     },
-    {
-        files: ['tests/**/*.unit-spec.ts'],
-        rules: {
-            // Esta regla se desactiva en los tests para evitar falsos positivos al trabajar con mocks.
-            '@typescript-eslint/unbound-method': 'off',
-        },
-    },
-);
+};
+
+export default [baseConfig, testOverrides];

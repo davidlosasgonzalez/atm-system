@@ -27,7 +27,9 @@ Una **API REST** desarrollada con **Nest.js** para simular las operaciones dispo
     ```
 
 3. **Configurar el entorno**:
-   Copia `.env.example` a `.env` y completa los campos necesarios.
+
+    - Duplica el fichero `.env.example`, renómbralo a `.env` y completa los valores necesarios.
+    - El puerto por defecto para el servidor es `3001`, pero puedes cambiarlo si lo deseas en el archivo `.env`.
 
 4. **Ejecutar la aplicación**:
    Para desarrollo:
@@ -42,6 +44,18 @@ Una **API REST** desarrollada con **Nest.js** para simular las operaciones dispo
     npm run build
     npm run start:prod
     ```
+
+## 📝 Documentación de la API (Swagger)
+
+La **documentación interactiva** de la API está disponible a través de **Swagger** en la siguiente ruta:
+
+[http://localhost:3001/api-docs](http://localhost:3001/api-docs)
+
+Esta documentación te permite explorar y probar los endpoints de la API de manera visual e interactiva.
+
+### ⚙️ Configuración de Swagger
+
+Swagger está configurado en el proyecto para ofrecer una visualización clara de todos los endpoints disponibles en la API. La configuración se encuentra en el archivo principal `main.ts` y se expone en la ruta `/api-docs`.
 
 ## 🗃️ Modelo de Datos
 

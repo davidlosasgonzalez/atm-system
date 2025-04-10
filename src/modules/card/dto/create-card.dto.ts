@@ -1,5 +1,5 @@
-import { IsIn } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsIn } from 'class-validator';
 
 export class CreateCardDto {
     @ApiProperty({ enum: ['debit', 'credit'] })

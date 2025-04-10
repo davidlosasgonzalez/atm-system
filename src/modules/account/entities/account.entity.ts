@@ -1,10 +1,10 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
     Column,
     CreateDateColumn,
     Entity,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('accounts')
 export class Account {
