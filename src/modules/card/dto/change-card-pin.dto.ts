@@ -1,5 +1,5 @@
-import { Matches, Validate } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Matches, Validate } from 'class-validator';
 import { NewPinsMatchConstraint } from '../validators/new-pins-match.validator';
 
 export class ChangeCardPinDto {

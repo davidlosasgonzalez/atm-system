@@ -1,6 +1,6 @@
 import { Controller, Post } from '@nestjs/common';
-import { AccountService } from './account.service';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { AccountService } from './account.service';
 import { Account } from './entities/account.entity';
 import { DataResponse } from '@/shared/types/base-response.type';
 
