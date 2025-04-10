@@ -1,0 +1,40 @@
+name: CI
+
+on:
+    push:
+        branches:
+            - development
+            - 'feature/**'
+            - 'chore/**'
+            - 'fix/**'
+            - 'refactor/**'
+            - 'test/**'
+    pull_request:
+        branches:
+            - development
+
+jobs:
+    lint-and-test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: 🛎️ Checkout repository
+              uses: actions/checkout@v4
+
+            - name: 🔧 Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '18'
+                  cache: 'npm'
+
+            - name: 📦 Install dependencies
+              run: npm ci
+
+            - name: 🎯 Lint code
+              run: npm run lint
+
+            - name: 🧪 Run unit tests
+              run: npm run test:unit
+
+            - name: 🏗️ Check build
+              run: npm run build

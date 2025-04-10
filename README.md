@@ -1,5 +1,7 @@
 # API del Sistema ATM
 
+![CI](https://github.com/davidlosasgonzalez/atm-system/actions/workflows/ci.yml/badge.svg)
+
 Una **API REST** desarrollada con **Nest.js** para simular las operaciones disponibles en un cajero automático: transacciones de cuentas, gestión de tarjetas y transferencias entre cuentas. Esta API proporciona una base segura y escalable para sistemas bancarios, ofreciendo una arquitectura modular y extensible. Perfecta para simular un entorno de cajero automático o integrarse en un sistema financiero más grande.
 
 ## 🚀 Tecnologías utilizadas
@@ -122,3 +124,13 @@ Ejecutar tests unitarios (servicios y controladores):
 npm run test:unit:services
 npm run test:unit:controllers
 ```
+
+## 🌌 Integración Continua (GitHub Actions)
+
+Cada vez que se realiza un push o un pull request a las ramas `development`, `feature/**`, `chore/**`, etc., se ejecuta automáticamente un workflow de GitHub Actions que:
+
+- Instala dependencias.
+- Verifica el formato y estilo del código (`lint`).
+- Ejecuta los tests unitarios.
+
+Esto garantiza que el código que llega a `development` mantiene la calidad y no rompe funcionalidades existentes.
